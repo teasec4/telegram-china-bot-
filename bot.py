@@ -135,6 +135,10 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def unknown_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("❓ Неизвестная команда. Введите /help чтобы увидеть доступные команды.")
 
+async def get_chat_id(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    chat = update.effective_chat
+    await update.message.reply_text(f"🆔 Chat ID: `{chat.id}`", parse_mode="Markdown")
+
 def main():
     global request_service
 
@@ -161,6 +165,7 @@ def main():
     application.add_handler(CallbackQueryHandler(view_request, pattern="^view_request$"))
     application.add_handler(CallbackQueryHandler(delete_request, pattern="^delete_request$"))
     application.add_handler(MessageHandler(filters.COMMAND, unknown_command))
+    application.add_handler(CommandHandler("chatid", get_chat_id))
 
     print("Bot is running...")
     application.run_polling()
