@@ -164,8 +164,9 @@ def main():
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CallbackQueryHandler(view_request, pattern="^view_request$"))
     application.add_handler(CallbackQueryHandler(delete_request, pattern="^delete_request$"))
-    application.add_handler(MessageHandler(filters.COMMAND, unknown_command))
     application.add_handler(CommandHandler("chatid", get_chat_id))
+    application.add_handler(MessageHandler(filters.COMMAND, unknown_command))
+    
 
     print("Bot is running...")
     application.run_polling()
