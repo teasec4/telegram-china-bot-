@@ -68,12 +68,20 @@ async def handle_start_button(update: Update, context: ContextTypes.DEFAULT_TYPE
     return DESCRIPTION
 
 async def get_description(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    context.user_data["description"] = update.message.text
+    text = update.message.text.strip()
+    if len(text)<5:
+        await update.message.reply_text("⚠️ Пожалуйста, опишите товар подробнее (минимум 5 символов).")
+        return DESCRIPTION
+    context.user_data["description"] = text
     await update.message.reply_text(REPLIES["ask_contact"])
     return CONTACT
 
 async def get_contact(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    contact = update.message.text
+    contact = update.message.text.strip()
+    if len(contact) < 3:
+        await update.message.reply_text("⚠️ Контакт слишком короткий, пожалуйста укажите корректный.")
+        return CONTACT
+    context.user_data["contact"] = contact
     description = context.user_data.get("description")
     user_id = int(update.effective_user.id)
 
